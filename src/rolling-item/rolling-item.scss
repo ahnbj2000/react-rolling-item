@@ -1,0 +1,33 @@
+.machine_rolling {
+  background-color: #00adff;
+  border-radius: 12px;
+  height: 216px;
+  .rolling_inner {
+    overflow: hidden;
+    padding: 20px 40px;
+  }
+  .rolling_box {
+    background-color: #fff;
+    border-radius: 13px;
+    float: left;
+    height: 176px;
+    overflow: hidden;
+    position: relative;
+    width: 140px;
+
+    &::after {
+      background: url('images/bg_machine_mask.png') no-repeat 0 0;
+      background-size: 140px 176px;
+      content: '';
+      height: 176px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 140px;
+    }
+
+    & + .rolling_box {
+      margin-left: 20px;
+    }
+  }
+}
