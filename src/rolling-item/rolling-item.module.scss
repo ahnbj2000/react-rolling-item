@@ -1,0 +1,17 @@
+.rolling {
+  .inner {
+    overflow: hidden;
+    padding: 20px 40px;
+  }
+  .box {
+    background-color: #fff;
+    border-radius: 13px;
+    float: left;
+    overflow: hidden;
+    position: relative;
+
+    & + .box {
+      margin-left: 20px;
+    }
+  }
+}

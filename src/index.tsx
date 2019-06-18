@@ -1,3 +1,9 @@
+import 'core-js/es/map';
+import 'core-js/es/set';
+import 'react-app-polyfill/ie9';
+import 'react-app-polyfill/stable';
+import 'raf/polyfill';
+import './utils/rAF.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
