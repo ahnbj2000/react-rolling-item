@@ -1,7 +1,28 @@
 {
   "name": "react-rolling-item",
   "version": "0.1.0",
+  "description": "Item rollers like slot machines for react",
   "private": true,
+  "keywords": [
+    "react",
+    "roller",
+    "slot-machine",
+    "typescript"
+  ],
+  "bugs": {
+    "url": "https://github.com/ahnbj2000/react-rolling-item/issues",
+    "email": "ahnbj2000@naver.com"
+  },
+  "author": {
+    "name": "Byeongjin An",
+    "email": "ahnbj2000@naver.com",
+    "url": "https://github.com/ahnbj2000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahnbj2000/react-rolling-item.git"
+  },
+  "license": "MIT",
   "dependencies": {
     "@babel/core": "7.4.3",
     "@svgr/webpack": "4.1.0",
