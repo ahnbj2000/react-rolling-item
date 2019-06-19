@@ -2,7 +2,6 @@
   "name": "react-rolling-item",
   "version": "0.1.0",
   "description": "Item rollers like slot machines for react",
-  "private": true,
   "keywords": [
     "react",
     "roller",
