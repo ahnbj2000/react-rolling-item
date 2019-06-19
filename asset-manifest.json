@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/react-rolling-item/static/css/main.bca33857.chunk.css",
+    "main.js": "/react-rolling-item/static/js/main.964bd647.chunk.js",
+    "main.js.map": "/react-rolling-item/static/js/main.964bd647.chunk.js.map",
+    "runtime~main.js": "/react-rolling-item/static/js/runtime~main.a8bd9757.js",
+    "runtime~main.js.map": "/react-rolling-item/static/js/runtime~main.a8bd9757.js.map",
+    "static/js/2.0631f4e9.chunk.js": "/react-rolling-item/static/js/2.0631f4e9.chunk.js",
+    "static/js/2.0631f4e9.chunk.js.map": "/react-rolling-item/static/js/2.0631f4e9.chunk.js.map",
+    "index.html": "/react-rolling-item/index.html",
+    "precache-manifest.06b98d1a50300c73b1838216772f6c32.js": "/react-rolling-item/precache-manifest.06b98d1a50300c73b1838216772f6c32.js",
+    "service-worker.js": "/react-rolling-item/service-worker.js",
+    "static/css/main.bca33857.chunk.css.map": "/react-rolling-item/static/css/main.bca33857.chunk.css.map",
+    "static/media/french-fries.png": "/react-rolling-item/static/media/french-fries.9d33107d.png"
+  }
+}
