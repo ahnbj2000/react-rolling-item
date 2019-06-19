@@ -22,6 +22,7 @@
     "type": "git",
     "url": "git+https://github.com/ahnbj2000/react-rolling-item.git"
   },
+  "homepage": "https://ahnbj2000.github.io/react-rolling-item",
   "license": "MIT",
   "dependencies": {
     "@babel/core": "7.4.3",
