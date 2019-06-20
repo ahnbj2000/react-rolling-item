@@ -1,2 +1,40 @@
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}code{font-family:source-code-pro,Menlo,Monaco,Consolas,Courier New,monospace}.rolling-item_rolling__1Uoa9 .rolling-item_inner__2FpXf{overflow:hidden;padding:20px 40px}.rolling-item_rolling__1Uoa9 .rolling-item_box__QwRFF{background-color:#fff;border-radius:13px;float:left;overflow:hidden;position:relative}.rolling-item_rolling__1Uoa9 .rolling-item_box__QwRFF+.rolling-item_box__QwRFF{margin-left:20px}.App{text-align:center}.start_btn{position:absolute;width:80px;border:1px solid;padding:10px 0;left:50px;cursor:pointer}
-/*# sourceMappingURL=main.bca33857.chunk.css.map */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.rolling-item_rolling__1Uoa9 .rolling-item_inner__2FpXf {
+  overflow: hidden;
+  padding: 20px 40px; }
+
+.rolling-item_rolling__1Uoa9 .rolling-item_box__QwRFF {
+  background-color: #fff;
+  border-radius: 13px;
+  float: left;
+  overflow: hidden;
+  position: relative; }
+  .rolling-item_rolling__1Uoa9 .rolling-item_box__QwRFF + .rolling-item_box__QwRFF {
+    margin-left: 20px; }
+
+.App {
+  text-align: center; }
+
+.start_btn {
+  position: absolute;
+  width: 80px;
+  border: 1px solid;
+  padding: 10px 0;
+  left: 50px;
+  cursor: pointer; }
+
+
+/*# sourceMappingURL=main.bca33857.chunk.css.map*/
