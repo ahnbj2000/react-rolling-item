@@ -4,13 +4,13 @@ import styled, { css, keyframes } from 'styled-components';
 import { detect } from 'detect-browser';
 import classNames from 'classnames';
 
-type IItemInfo = {x: string | number, y: string | number, id?: any};
+type ItemInfo = {x: string | number, y: string | number, id?: any};
 interface IRollingItemProps {
   on: boolean;
   row: number;
   backgroundImage: string;
   backgroundSize: string;
-  itemInfo: IItemInfo[];
+  itemInfo: ItemInfo[];
   width: number;
   height: number;
   completionAnimation?: boolean;
@@ -22,7 +22,7 @@ interface IRollingItemState {
   animationState: boolean;
   eachAnimationState: boolean[];
   pos: number[];
-  itemInfo: IItemInfo[][];
+  itemInfo: ItemInfo[][];
 }
 
 const RAF_DELAY = 1;
@@ -97,7 +97,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
 
   public componentDidMount(): void {
     const { itemInfo } = this.state;
-    const shufflePos: IItemInfo[][] = [];
+    const shufflePos: ItemInfo[][] = [];
 
     this.boxHeight = this.props.height * this.props.itemInfo.length;
 
@@ -180,7 +180,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     );
   }
 
-  private shuffle = (pos: IItemInfo[]): IItemInfo[] => {
+  private shuffle = (pos: ItemInfo[]): ItemInfo[] => {
     const shufflePos = [...pos];
 
     shufflePos.forEach((v, i) => {
