@@ -1,6 +1,6 @@
 {
   "name": "react-rolling-item",
-  "version": "0.1.9",
+  "version": "0.1.9-beta",
   "description": "Item rollers like slot machines for react",
   "keywords": [
     "react",
@@ -22,6 +22,8 @@
     "url": "git+https://github.com/ahnbj2000/react-rolling-item.git"
   },
   "main": "./build/static/js/main.js",
+  "typings": "./typings/index.d.ts",
+  "types": "./typings/index.d.ts",
   "homepage": "https://ahnbj2000.github.io/react-rolling-item",
   "license": "MIT",
   "dependencies": {
@@ -80,6 +82,7 @@
     "react-app-polyfill": "^1.0.1",
     "react-dev-utils": "^9.0.1",
     "react-dom": "^16.8.6",
+    "react-star-rating-input": "^8.0.1",
     "resolve": "1.10.0",
     "sass-loader": "7.1.0",
     "semver": "6.0.0",
