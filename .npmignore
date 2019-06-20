@@ -1,11 +1,5 @@
-.idea/
-.editorconfig
-.gitignore
-.npmignore
-tsconfig*.json
-demo/
-docs/
-scripts/
-public/
-config/
+scripts
+public
+config
+src
 yarn.lock
