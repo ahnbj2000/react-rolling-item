@@ -21,7 +21,7 @@
     "type": "git",
     "url": "git+https://github.com/ahnbj2000/react-rolling-item.git"
   },
-  "main": "./build/static/js/main.js",
+  "main": "./static/js/main.js",
   "homepage": "https://ahnbj2000.github.io/react-rolling-item",
   "license": "MIT",
   "dependencies": {
