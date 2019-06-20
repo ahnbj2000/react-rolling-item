@@ -1,6 +1,6 @@
 {
   "name": "react-rolling-item",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Item rollers like slot machines for react",
   "keywords": [
     "react",
@@ -101,7 +101,8 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "deploy": "yarn build&&gh-pages -d build"
+    "deploy": "yarn build&&gh-pages -d build",
+    "prePublishOnly": "yarn build"
   },
   "eslintConfig": {
     "extends": "react-app"
