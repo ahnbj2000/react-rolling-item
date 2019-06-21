@@ -1,8 +1,8 @@
 import * as React from 'react';
-import RollingItem from './rolling-item';
+import RollingItem from '../lib';
 
 // import imageFile from './images/spr_machine_rolling.png';
-import imageFile from './images/bg-fruit.png';
+import imageFile from '../images/bg-fruit.png';
 
 interface IContainerProps {
 
