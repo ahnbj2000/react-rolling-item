@@ -86,6 +86,7 @@
     "react-app-polyfill": "^1.0.1",
     "react-dev-utils": "^9.0.1",
     "react-dom": "^16.8.6",
+    "react-rolling-item": "^0.2.2",
     "react-star-rating-input": "^8.0.1",
     "resolve": "1.10.0",
     "sass-loader": "7.1.0",
@@ -105,8 +106,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "deploy": "yarn build&&gh-pages -d build",
-    "prePublishOnly": "yarn build"
+    "deploy": "yarn build&&gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
