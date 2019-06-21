@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from './rolling-item.module.scss';
+const styles = require('./rolling-item.module.scss');
 import styled, { css, keyframes } from 'styled-components';
 import { detect } from 'detect-browser';
 import classNames from 'classnames';
