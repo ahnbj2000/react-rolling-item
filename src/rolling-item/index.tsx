@@ -4,7 +4,7 @@ import styled, { css, keyframes } from 'styled-components';
 import { detect } from 'detect-browser';
 import classNames from 'classnames';
 
-type ItemInfo = {x: string | number, y: string | number, id?: any};
+type ItemInfo = {x: string | number, y: string | number, id?: any, intro?: boolean};
 interface IRollingItemProps {
   on: boolean;
   row: number;
