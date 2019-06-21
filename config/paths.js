@@ -77,7 +77,6 @@ module.exports = {
   appSrc: resolveApp('src'),
   appLibSrc: resolveApp('src/lib'),
   appLibIndex: resolveApp('src/lib/index'),
-  appLibScss: resolveApp('src/lib/rolling-item.module.scss'),
   appDemoSrc: resolveApp('src/demo'),
   appTsConfig: resolveApp('tsconfig.json'),
   appJsConfig: resolveApp('jsconfig.json'),
