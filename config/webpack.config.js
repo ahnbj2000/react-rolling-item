@@ -150,6 +150,7 @@ module.exports = function(webpackEnv) {
 
       // Finally, this is your app's code:
       isEnvDevelopment ? paths.appSrc : paths.appLibIndex,
+      isEnvDevelopment ? undefined : paths.appLibSrc + "/rolling-item.module.scss",
       // We include the app code last so that if there is a runtime error during
       // initialization, it doesn't blow up the WebpackDevServer client, and
       // changing JS code would still trigger a refresh.
