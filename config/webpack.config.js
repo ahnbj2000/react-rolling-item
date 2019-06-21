@@ -139,7 +139,9 @@ module.exports = function(webpackEnv) {
       // the line below with these two lines if you prefer the stock client:
 
       // ie 9, 10에서 핫모듈 이슈로 아래 두 줄 활성화, webpackHotDevClient는 비활성화함.
+      isEnvDevelopment &&
       require.resolve('webpack-dev-server/client') + '?/',
+      isEnvDevelopment &&
       require.resolve('webpack/hot/dev-server'),
 
       // @see - https://github.com/facebook/create-react-app/issues/5674#issuecomment-444371920
