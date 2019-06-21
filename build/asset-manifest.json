@@ -1,11 +1,9 @@
 {
   "files": {
-    "main.css": "/react-rolling-item/static/css/main.css",
     "main.js": "/react-rolling-item/static/js/main.js",
-    "main.css.map": "/react-rolling-item/static/css/main.css.map",
     "main.js.map": "/react-rolling-item/static/js/main.js.map",
     "index.html": "/react-rolling-item/index.html",
-    "precache-manifest.21c5fe7f3fa8bf0cbb0672e3a8833fde.js": "/react-rolling-item/precache-manifest.21c5fe7f3fa8bf0cbb0672e3a8833fde.js",
+    "precache-manifest.9695c1c4f3eadf52023109c8f58ca71d.js": "/react-rolling-item/precache-manifest.9695c1c4f3eadf52023109c8f58ca71d.js",
     "service-worker.js": "/react-rolling-item/service-worker.js"
   }
 }
