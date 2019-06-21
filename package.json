@@ -1,6 +1,6 @@
 {
   "name": "react-rolling-item",
-  "version": "0.2.2-beta",
+  "version": "0.2.2",
   "description": "Item rollers like slot machines for react",
   "keywords": [
     "react",
@@ -17,6 +17,10 @@
     "email": "ahnbj2000@naver.com",
     "url": "https://github.com/ahnbj2000"
   },
+  "files": [
+    "build",
+    "typings"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ahnbj2000/react-rolling-item.git"
