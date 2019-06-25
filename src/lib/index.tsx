@@ -13,6 +13,8 @@ interface IRollingItemProps {
   itemInfo: ItemInfo[];
   width: number;
   height: number;
+  startDelay?: number;
+  reset?: boolean;
   completionAnimation?: boolean;
   onProgress?: (progress: boolean, result?: any[]) => void;
 }
@@ -23,6 +25,8 @@ interface IRollingItemState {
   eachAnimationState: boolean[];
   pos: number[];
   itemInfo: ItemInfo[][];
+  introItemInfo: ItemInfo;
+  reset: boolean;
 }
 
 const RAF_DELAY = 1;
@@ -40,6 +44,8 @@ const RollingBox: any = styled.div<any>`
 // 연속적인 transform animation 속성의 경우 위와 같이 작성하면 픽셀 변경 시마다 새로운 className(styled-components에서 생성하는)이
 // 매번 생성되어 perfomance 오류가 발생
 // 이를 피하려면 attrs 메소드를 사용한다.
+// 하지만 transform은 한번 이상 애니메이션을 실행시키면 다시 200 classes 오류가 발생하는 이슈로
+// componentDidUpdate cycle에서 이전 애니메이션이 완료되면 state를 업데이트하여 해당 버그를 회피하도록 함.
 const BoxDiv: any = styled.div.attrs<any>((props) => ({
   style: {
     transform: `translate(0px, ${props.pos}px)`,
@@ -66,7 +72,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
   private resultId: any[] = [];
 
   static getDerivedStateFromProps(props: IRollingItemProps, state: IRollingItemState) {
-    if (state.pos.length == 0) {
+    if (state.pos.length === 0) {
       return {
         pos: Array(props.row).fill(-(props.height * props.itemInfo.length)),
         itemInfo: Array(props.row).fill([...props.itemInfo]),
@@ -76,6 +82,12 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     if (props.on !== state.on) {
       return {
         on: props.on && !state.animationState,
+      }
+    }
+
+    if (props.reset !== state.reset) {
+      return {
+        reset: props.reset,
       }
     }
 
@@ -92,60 +104,66 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
       eachAnimationState: [false, false, false],
       pos: [],
       itemInfo: [],
+      introItemInfo: {} as ItemInfo,
+      reset: false,
     }
   }
 
   public componentDidMount(): void {
-    const { itemInfo } = this.state;
-    const shufflePos: ItemInfo[][] = [];
+    const introItem = this.props.itemInfo.filter((v: ItemInfo) => { return v.intro; })[0];
 
-    this.boxHeight = this.props.height * this.props.itemInfo.length;
+    this.boxHeight = this.props.height * this.state.itemInfo[0].length;
 
-    itemInfo.forEach((eachPos) => {
-      shufflePos.push(this.shuffle(eachPos));
-    });
-
-    this.setState({
-      itemInfo: shufflePos,
-    });
+    this.reset();
+    this.setState({ introItemInfo: introItem });
   }
 
   public componentDidUpdate(prevProps: IRollingItemProps, prevState: IRollingItemState): void {
-    if (prevState.on !== this.state.on) {
-      if (this.state.on) {
-        this.setState({ animationState: true });
+    const { on, reset } = this.state;
 
-        let execCount = 0;
-        const callback = (next?: any) => {
-          let now = new Date().getTime();
-          if (typeof next === 'undefined' || now > next && execCount < this.props.row) {
-            this.stopDelay[execCount] = execCount * 50;
-            this.cancel(execCount);
-            this.movePixel[execCount] = ((detect() as any).name === 'ie' ? 20 : 10) * this.props.height * 0.01;
-            this.animate(execCount);
-            next = now;
-          }
-          execCount++;
+    if (prevState.on !== on && on) {
+      this.setState({
+        animationState: true,
+        pos: Array(this.props.row).fill(-this.boxHeight),
+        eachAnimationState: [false, false, false]
+      });
 
-          if (execCount === 3) {
-            cancelAnimationFrame(this.loopRafId);
-          } else {
-            this.loopRafId = requestAnimationFrame(callback.bind(this, next));
-          }
+      let execCount = 0;
+      const callback = (next?: any) => {
+        let now = new Date().getTime();
+        if (typeof next === 'undefined' || (now > next && execCount < this.props.row)) {
+          this.stopDelay[execCount] = execCount * 50;
+          this.cancel(execCount);
+          this.movePixel[execCount] = ((detect() as any).name === 'ie' ? 50 : 10) * this.props.height * 0.01;
+          this.animate(execCount);
+          next = now;
         }
+        execCount++;
 
-        this.loopRafId = requestAnimationFrame(callback);
-
-        if (this.props.onProgress) {
-          this.props.onProgress(true);
+        if (execCount === 3) {
+          cancelAnimationFrame(this.loopRafId);
+        } else {
+          this.loopRafId = requestAnimationFrame(callback.bind(this, next));
         }
       }
+
+      setTimeout(() => {
+        this.loopRafId = requestAnimationFrame(callback);
+      }, this.props.startDelay || 0);
+
+      if (this.props.onProgress) {
+        this.props.onProgress(true);
+      }
+    }
+
+    if (prevState.reset !== reset && reset) {
+      this.reset();
     }
   }
 
   public render(): React.ReactNode {
     const { backgroundImage, backgroundSize, width, height, completionAnimation = false } = this.props;
-    const { itemInfo, eachAnimationState } = this.state;
+    const { itemInfo, introItemInfo, eachAnimationState } = this.state;
     const rollingBoxes: any[] = [];
 
     itemInfo.forEach((eachPos, i) => {
@@ -166,6 +184,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
               )
             }
             <RollingImages {...{ pos: eachPos[0], backgroundImage, backgroundSize, width, height }} key={i} />
+          { introItemInfo && <RollingImages {...{ pos: introItemInfo, backgroundImage, backgroundSize, width, height }} key={'intro'} /> }
           </BoxDiv>
         </RollingBox>
       );
@@ -181,7 +200,10 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
   }
 
   private shuffle = (pos: ItemInfo[]): ItemInfo[] => {
-    const shufflePos = [...pos];
+    const posExceptIntro = pos.filter((v: ItemInfo) => {
+      return !v.intro;
+    });
+    const shufflePos = [...posExceptIntro];
 
     shufflePos.forEach((v, i) => {
       const randomIndex = Math.floor(Math.random() * (i + 1));
@@ -193,6 +215,8 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
 
   private animate = (index: number = 0): void => {
     let pos = this.state.pos[index];
+    let adjustedPos = 0;
+    let firstLap = false;
 
     const callback = (next?: any) => {
       let now = new Date().getTime();
@@ -206,7 +230,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
               this.movePixel[index] = 5;
             } else {
               if (index !== 0 && this.movePixel[index - 1] !== 0) {
-                this.movePixel[index] = 5;
+                this.movePixel[index] = 1;
               } else {
                 this.movePixel[index] = 0;
               }
@@ -232,18 +256,27 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
         next = now + RAF_DELAY;
       }
 
+
       if (Math.floor(this.state.pos[index]) >= 0) {
+        if (this.state.introItemInfo) {
+          if (!firstLap) {
+            adjustedPos = -this.boxHeight + this.props.height;
+            firstLap = true;
+          }
+        } else {
+          adjustedPos = -this.boxHeight;
+        }
         this.setState({
           pos: this.state.pos.map((v, i) => {
             if (i === index) {
-              return -this.boxHeight;
+              return adjustedPos;
             } else {
               return v;
             }
           }),
         });
         next = undefined;
-        pos = -this.boxHeight;
+        pos = adjustedPos;
       }
 
       if (this.movePixel[index] === 0) {
@@ -285,6 +318,24 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
   private cancel = (index: number): void => {
     cancelAnimationFrame(this.rollingRafId[index]);
     this.rollingRafId.splice(index, 1, null);
+  }
+
+  private reset = (): void => {
+    if (this.state.animationState) {
+      return;
+    }
+    const shufflePos: ItemInfo[][] = [];
+
+    this.state.itemInfo.forEach((eachPos) => {
+      shufflePos.push(this.shuffle(eachPos));
+    });
+
+    this.setState({
+      itemInfo: shufflePos,
+      reset: false,
+      pos: Array(this.props.row).fill(-this.boxHeight),
+      eachAnimationState: [false, false, false]
+    });
   }
 }
 
