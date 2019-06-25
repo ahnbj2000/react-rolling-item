@@ -74,8 +74,8 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
   static getDerivedStateFromProps(props: IRollingItemProps, state: IRollingItemState) {
     if (state.pos.length === 0) {
       return {
-        pos: Array(props.row).fill(-(props.height * props.itemInfo.length)),
-        itemInfo: Array(props.row).fill([...props.itemInfo]),
+        pos: [...new Array(props.row)].map(() => (-(props.height * props.itemInfo.length))),
+        itemInfo: [...new Array(props.row)].map(() => ([...props.itemInfo])),
       }
     }
 
@@ -101,7 +101,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     this.state = {
       on: false,
       animationState: false,
-      eachAnimationState: [false, false, false],
+      eachAnimationState: [...new Array(props.row)].map(() => (false)),
       pos: [],
       itemInfo: [],
       introItemInfo: {} as ItemInfo,
@@ -124,8 +124,8 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     if (prevState.on !== on && on) {
       this.setState({
         animationState: true,
-        pos: Array(this.props.row).fill(-this.boxHeight),
-        eachAnimationState: [false, false, false]
+        pos: [...new Array(this.props.row)].map(() => (-this.boxHeight)),
+        eachAnimationState: [...new Array(this.props.row)].map(() => (false))
       });
 
       let execCount = 0;
@@ -333,8 +333,8 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     this.setState({
       itemInfo: shufflePos,
       reset: false,
-      pos: Array(this.props.row).fill(-this.boxHeight),
-      eachAnimationState: [false, false, false]
+      pos: [...new Array(this.props.row)].map(() => (-this.boxHeight)),
+      eachAnimationState: [...new Array(this.props.row)].map(() => (false))
     });
   }
 }
