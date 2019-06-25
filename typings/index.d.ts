@@ -10,6 +10,8 @@ declare module 'react-rolling-item' {
     itemInfo: ItemInfo[];
     width: number;
     height: number;
+    startDelay: number;
+    reset: boolean;
     completionAnimation?: boolean;
     onProgress?: (progress: boolean, result?: any[]) => void;
   }
