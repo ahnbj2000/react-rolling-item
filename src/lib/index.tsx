@@ -48,8 +48,8 @@ const RollingBox: any = styled.div<any>`
 // componentDidUpdate cycle에서 이전 애니메이션이 완료되면 state를 업데이트하여 해당 버그를 회피하도록 함.
 const BoxDiv: any = styled.div.attrs<any>((props) => ({
   style: {
-    transform: `translate(0px, ${props.pos}px)`,
-    msTransform: `translate(0px, ${props.pos}px)`,
+    transform: `translate3d(0, ${props.pos}px, 0)`,
+    msTransform: `translate3d(0, ${props.pos}px, 0)`,
   }
 }))`
   ${(props: any) => css`animation: ${props.animation} 0.6s ease-out 1`};
@@ -132,9 +132,9 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
       const callback = (next?: any) => {
         let now = new Date().getTime();
         if (typeof next === 'undefined' || (now > next && execCount < this.props.row)) {
-          this.stopDelay[execCount] = execCount * 50;
+          this.stopDelay[execCount] = execCount === 0 ? 0 : 3;
           this.cancel(execCount);
-          this.movePixel[execCount] = ((detect() as any).name === 'ie' ? 50 : 10) * this.props.height * 0.01;
+          this.movePixel[execCount] = Math.floor(((detect() as any).name === 'ie' ? 40 : 15) * this.props.height * 0.01);
           this.animate(execCount);
           next = now;
         }
@@ -168,8 +168,8 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
 
     itemInfo.forEach((eachPos, i) => {
       let frame = eachAnimationState[i] && completionAnimation ? keyframes`
-        50% { transform: translate(0, ${this.state.pos[i]+30 }px); }
-        100% { transform: translate(0, ${this.state.pos[i] }px); }
+        50% { transform: translate3d(0, ${this.state.pos[i]+20 }px, 0); }
+        100% { transform: translate3d(0, ${this.state.pos[i] }px, 0); }
       ` : null;
 
       rollingBoxes.push(
@@ -222,23 +222,15 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
       let now = new Date().getTime();
 
       if (!this.state.on) {
-        if (this.stopDelay[index] === 0) {
+        if (this.state.pos[index] % this.props.height === 0 && this.stopDelay[index] === 0) {
+          this.movePixel[index] = 0;
+        } else {
           if (this.movePixel[index] > 5) {
-            this.movePixel[index] = this.movePixel[index]-=1;
-          } else {
-            if (this.state.pos[index] % this.props.height !== 0) {
-              this.movePixel[index] = 5;
-            } else {
-              if (index !== 0 && this.movePixel[index - 1] !== 0) {
-                this.movePixel[index] = 1;
-              } else {
-                this.movePixel[index] = 0;
-              }
-            }
+            this.movePixel[index]--;
           }
         }
 
-        if (this.stopDelay[index] > 0) {
+        if (this.stopDelay[index] > 0 && this.movePixel[index - 1] === 0) {
           this.stopDelay[index]--;
         }
       }
@@ -257,7 +249,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
       }
 
 
-      if (Math.floor(this.state.pos[index]) >= 0) {
+      if (this.state.pos[index] >= 0) {
         if (this.state.introItemInfo) {
           if (!firstLap) {
             adjustedPos = -this.boxHeight + this.props.height;

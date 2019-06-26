@@ -63,7 +63,7 @@ export default class Container extends React.PureComponent<IContainerProps, ICon
     this.setState({ start: !this.state.start }, () => {
       setTimeout(() => {
         this.setState({ start: !this.state.start });
-      }, 1000);
+      }, 1500);
     });
   }
 

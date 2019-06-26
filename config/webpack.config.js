@@ -145,8 +145,8 @@ module.exports = function(webpackEnv) {
       //   require.resolve('webpack/hot/dev-server'),
 
       // @see - https://github.com/facebook/create-react-app/issues/5674#issuecomment-444371920
-      isEnvDevelopment &&
-        require.resolve('react-dev-utils/webpackHotDevClient'),
+      // isEnvDevelopment &&
+      //   require.resolve('react-dev-utils/webpackHotDevClient'),
 
       // Finally, this is your app's code:
       isEnvDevelopment ? paths.appSrc : paths.appLibIndex,
