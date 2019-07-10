@@ -191,7 +191,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     const { backgroundImage, backgroundSize, width, height, introItemInfo, completionAnimation = false } = this.props;
     const { itemInfo, eachAnimationState, pos } = this.state;
     const rollingBoxes: any[] = [];
-    console.log(introItemInfo);
+    alert(introItemInfo);
     itemInfo.forEach((eachPos, i) => {
       let framePos = eachAnimationState[i] && completionAnimation ? pos[i] : null;
 
