@@ -4,13 +4,15 @@ import styled, { css, keyframes } from 'styled-components';
 import { detect } from 'detect-browser';
 import classNames from 'classnames';
 
-type ItemInfo = {x: string | number, y: string | number, id?: any, intro?: boolean};
+type IntroItemInfo = {x: string | number, y: string | number};
+interface ItemInfo extends IntroItemInfo {id?: any, probability?: number};
 interface IRollingItemProps {
   on: boolean;
   row: number;
   backgroundImage: string;
   backgroundSize: string;
   itemInfo: ItemInfo[];
+  introItemInfo: IntroItemInfo;
   width: number;
   height: number;
   startDelay?: number;
@@ -70,13 +72,43 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
   private movePixel: number[] = [];
   private stopDelay: number[] = [];
   private resultId: any[] = [];
+  private generatedItems: any[] = [];
+  private pickedItem: any;
+  private prizeItemIndexes: any[] = [];
 
   static getDerivedStateFromProps(props: IRollingItemProps, state: IRollingItemState) {
     if (state.pos.length === 0) {
       return {
         pos: [...new Array(props.row)].map(() => (-(props.height * props.itemInfo.length))),
-        itemInfo: [...new Array(props.row)].map(() => ([...props.itemInfo])),
-      }
+        itemInfo: [...new Array(props.row)].map((v, i) => {
+          let probabilitySum = 0;
+          let isOver100 = false;
+          const itemInfo = [...props.itemInfo].map((item, i) => {
+            if (typeof item.probability !== 'undefined') {
+              probabilitySum += item.probability;
+              if (probabilitySum > 100 && !isOver100) {
+                item.probability = probabilitySum - 100;
+                isOver100 = true;
+                return item;
+              }
+              if (isOver100) {
+                item.probability = 0;
+              }
+            }
+            if (!item.id) {
+              item.id = i;
+            }
+            return item;
+          });
+          return itemInfo;
+        }),
+      };
+    }
+
+    if (JSON.stringify(props.introItemInfo) !== JSON.stringify(state.introItemInfo)) {
+      return {
+        introItemInfo: {...props.introItemInfo},
+      };
     }
 
     if (props.on !== state.on) {
@@ -104,22 +136,19 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
       eachAnimationState: [...new Array(props.row)].map(() => (false)),
       pos: [],
       itemInfo: [],
-      introItemInfo: {} as ItemInfo,
+      introItemInfo: {} as IntroItemInfo,
       reset: false,
     }
   }
 
   public componentDidMount(): void {
-    const introItem = this.props.itemInfo.filter((v: ItemInfo) => { return v.intro; })[0];
-
-    this.boxHeight = this.props.height * this.state.itemInfo[0].length;
+    this.boxHeight = this.props.height * (this.state.itemInfo[0].length + (!!this.state.introItemInfo && 1));
 
     this.reset();
-    this.setState({ introItemInfo: introItem });
   }
 
   public componentDidUpdate(prevProps: IRollingItemProps, prevState: IRollingItemState): void {
-    const { on, reset } = this.state;
+    const { on, reset, itemInfo } = this.state;
 
     if (prevState.on !== on && on) {
       this.setState({
@@ -200,10 +229,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
   }
 
   private shuffle = (pos: ItemInfo[]): ItemInfo[] => {
-    const posExceptIntro = pos.filter((v: ItemInfo) => {
-      return !v.intro;
-    });
-    const shufflePos = [...posExceptIntro];
+    const shufflePos = [...pos];
 
     shufflePos.forEach((v, i) => {
       const randomIndex = Math.floor(Math.random() * (i + 1));
@@ -217,21 +243,46 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     let pos = this.state.pos[index];
     let adjustedPos = 0;
     let firstLap = false;
+    const itemNum = this.props.itemInfo.length;
 
     const callback = (next?: any) => {
       let now = new Date().getTime();
 
       if (!this.state.on) {
-        if (this.state.pos[index] % this.props.height === 0 && this.stopDelay[index] === 0) {
-          this.movePixel[index] = 0;
-        } else {
-          if (this.movePixel[index] > 5) {
-            this.movePixel[index]--;
-          }
-        }
+        if (index === 0 || this.movePixel[index - 1] === 0) {
 
-        if (this.stopDelay[index] > 0 && this.movePixel[index - 1] === 0) {
-          this.stopDelay[index]--;
+          if (this.generatedItems.length > 0) {
+            let currentIndex = Math.floor(Math.abs(this.state.pos[index]) / this.props.height);
+            const fitPos = Math.abs(this.state.pos[index]) % this.props.height;
+
+            if (itemNum === currentIndex) {
+              currentIndex = 0;
+            }
+
+            if (this.movePixel[index] > 5) {
+              this.movePixel[index]--;
+            }
+
+            if (fitPos <= this.movePixel[index] && fitPos > 0 && currentIndex === this.prizeItemIndexes[index]) {
+                this.movePixel[index] = fitPos;
+            }
+
+            if (fitPos === 0 && currentIndex === this.prizeItemIndexes[index]) {
+              this.movePixel[index] = 0;
+            }
+          } else {
+            if (this.state.pos[index] % this.props.height === 0 && this.stopDelay[index] === 0) {
+              this.movePixel[index] = 0;
+            } else {
+              if (this.movePixel[index] > 5) {
+                this.movePixel[index]--;
+              }
+            }
+          }
+
+          if (this.stopDelay[index] > 0) {
+            this.stopDelay[index]--;
+          }
         }
       }
 
@@ -307,6 +358,44 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     }
   }
 
+  private generatedByProbability = () => {
+    const { itemInfo, row } = this.props;
+
+    this.generatedItems = [];
+
+    if (!itemInfo.some((item) => (!!item.probability))) {
+      return;
+    }
+
+    const totalCaseNum = Math.pow(itemInfo.length, row);
+    let eachCaseNum = 0;
+
+    itemInfo.forEach((item: ItemInfo, index) => {
+      if (item.probability) {
+        eachCaseNum = Math.floor(totalCaseNum * item.probability * 0.01);
+
+        for (let i = 0; i < eachCaseNum; i++) {
+          this.generatedItems.push(item.id || index);
+        }
+      }
+    });
+
+    while (totalCaseNum > this.generatedItems.length) {
+      this.generatedItems.push(null);
+    }
+  }
+
+  private getPickedItem = () => {
+    if (this.generatedItems.length === 0) {
+      return;
+    }
+
+    const { itemInfo, row } = this.props;
+    const totalCaseNum = Math.pow(itemInfo.length, row);
+
+    return this.generatedItems[Math.floor(Math.random() * (totalCaseNum + 1))];
+  }
+
   private cancel = (index: number): void => {
     cancelAnimationFrame(this.rollingRafId[index]);
     this.rollingRafId.splice(index, 1, null);
@@ -316,10 +405,21 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     if (this.state.animationState) {
       return;
     }
-    const shufflePos: ItemInfo[][] = [];
 
-    this.state.itemInfo.forEach((eachPos) => {
-      shufflePos.push(this.shuffle(eachPos));
+    this.generatedByProbability();
+    this.pickedItem = this.getPickedItem();
+
+    const shufflePos: ItemInfo[][] = [];
+    this.state.itemInfo.forEach((eachPos, i) => {
+      const shuffleItem = this.shuffle(eachPos);
+
+      if (this.generatedItems.length > 0) {
+        shuffleItem.some((item, index) => {
+          this.prizeItemIndexes[i] = index;
+          return item.id === this.pickedItem;
+        });
+      }
+      shufflePos.push(shuffleItem);
     });
 
     this.setState({

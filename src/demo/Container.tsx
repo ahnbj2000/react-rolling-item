@@ -33,15 +33,15 @@ export default class Container extends React.PureComponent<IContainerProps, ICon
           row={3}
           backgroundImage={imageFile}
           backgroundSize="600px 564px"
+          introItemInfo={{ x: -39, y: -28 }}
           itemInfo={
             [
-              { x: -39, y: -28, id: 'item_0', intro: true },
-              { x: -39, y: -217, id: 'item_1' },
-              { x: -39, y: -406, id: 'item_2' },
-              { x: -241, y: -28, id: 'item_3' },
-              { x: -241, y: -217, id: 'item_4' },
-              { x: -241, y: -406, id: 'item_5' },
-              { x: -437, y: -28, id: 'item_6' },
+              { x: -39, y: -217, id: 'item_1', probability: 20 },
+              { x: -39, y: -406, id: 'item_2', probability: 5 },
+              { x: -241, y: -28, id: 'item_3', probability: 10 },
+              { x: -241, y: -217, id: 'item_4', probability: 20 },
+              { x: -241, y: -406, id: 'item_5', probability: 15 },
+              { x: -437, y: -28, id: 'item_6', probability: 50 },
               { x: -437, y: -217, id: 'item_7' },
               { x: -437, y: -406, id: 'item_8' },
             ]
