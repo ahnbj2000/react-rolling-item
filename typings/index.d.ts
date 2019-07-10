@@ -1,7 +1,7 @@
 import * as React from 'react';
 declare module 'react-rolling-item' {
   type IntroItemInfo = {x: string | number, y: string | number};
-  interface ItemInfo extends IntroItemInfo {id?: any, probability?: number}
+  type ItemInfo = {x: string | number, y: string | number, id?: any, probability?: number};
 
   interface RollingItemProps {
     on: boolean;
