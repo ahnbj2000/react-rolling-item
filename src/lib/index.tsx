@@ -54,7 +54,7 @@ const BoxDiv: any = styled.div.attrs<any>((props) => ({
     msTransform: `translate(0, ${props.pos}px)`,
   }
 }))`
-  ${(props: any) => css`animation: ${props.animation} 0.6s ease-out 1`};
+  ${(props: any) => css`animation: ${props.framePos && keyframeProp(props.framePos)} 0.6s ease-out 1`};
 `;
 
 const RollingImages: any = styled.div<any>`
@@ -64,6 +64,11 @@ const RollingImages: any = styled.div<any>`
   width: ${props => `${props.width}px`};
   height: ${props => `${props.height}px`};
 `;
+
+const keyframeProp: any = (props: any) => keyframes`
+  50% { transform: translate(0, ${props + 20 }px); }
+  100% { transform: translate(0, ${props}px); }
+`
 
 export default class RollingItem extends React.PureComponent<IRollingItemProps, IRollingItemState> {
   private rollingRafId: any[] = [];
@@ -192,19 +197,16 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
 
   public render(): React.ReactNode {
     const { backgroundImage, backgroundSize, width, height, completionAnimation = false } = this.props;
-    const { itemInfo, introItemInfo, eachAnimationState } = this.state;
+    const { itemInfo, introItemInfo, eachAnimationState, pos } = this.state;
     const rollingBoxes: any[] = [];
 
     itemInfo.forEach((eachPos, i) => {
-      let frame = eachAnimationState[i] && completionAnimation ? keyframes`
-        50% { transform: translate(0, ${this.state.pos[i]+20 }px); }
-        100% { transform: translate(0, ${this.state.pos[i] }px); }
-      ` : null;
+      let framePos = eachAnimationState[i] && completionAnimation ? pos[i] : null;
 
       rollingBoxes.push(
         <RollingBox className={classNames(styles.box, 'roll_box_item')} {...{ width, height }} key={i}>
           <BoxDiv
-            { ...{ pos: this.state.pos[i], animation: frame } }
+            { ...{ pos: this.state.pos[i], framePos } }
             key={`inner_${i}`}
           >
             {
@@ -251,7 +253,6 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
 
       if (!this.state.on) {
         if (index === 0 || this.movePixel[index - 1] === 0) {
-
           if (this.generatedItems.length > 0) {
             let currentIndex = Math.floor(Math.abs(this.state.pos[index]) / this.props.height);
 
