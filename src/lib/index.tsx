@@ -27,7 +27,6 @@ interface IRollingItemState {
   eachAnimationState: boolean[];
   pos: number[];
   itemInfo: ItemInfo[][];
-  introItemInfo: ItemInfo;
   reset: boolean;
 }
 
@@ -110,12 +109,6 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
       };
     }
 
-    if (JSON.stringify(props.introItemInfo) !== JSON.stringify(state.introItemInfo)) {
-      return {
-        introItemInfo: {...props.introItemInfo},
-      };
-    }
-
     if (props.on !== state.on) {
       return {
         on: props.on && !state.animationState,
@@ -141,13 +134,12 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
       eachAnimationState: [...new Array(props.row)].map(() => (false)),
       pos: [],
       itemInfo: [],
-      introItemInfo: {} as IntroItemInfo,
       reset: false,
     }
   }
 
   public componentDidMount(): void {
-    this.boxHeight = this.props.height * (this.state.itemInfo[0].length + (!!this.state.introItemInfo && 1));
+    this.boxHeight = this.props.height * (this.state.itemInfo[0].length + (!!this.props.introItemInfo && 1));
 
     this.reset();
   }
@@ -196,8 +188,8 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
   }
 
   public render(): React.ReactNode {
-    const { backgroundImage, backgroundSize, width, height, completionAnimation = false } = this.props;
-    const { itemInfo, introItemInfo, eachAnimationState, pos } = this.state;
+    const { backgroundImage, backgroundSize, width, height, introItemInfo, completionAnimation = false } = this.props;
+    const { itemInfo, eachAnimationState, pos } = this.state;
     const rollingBoxes: any[] = [];
 
     itemInfo.forEach((eachPos, i) => {
@@ -302,7 +294,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
 
 
       if (this.state.pos[index] >= 0) {
-        if (this.state.introItemInfo) {
+        if (this.props.introItemInfo) {
           if (!firstLap) {
             adjustedPos = -this.boxHeight + this.props.height;
             firstLap = true;
