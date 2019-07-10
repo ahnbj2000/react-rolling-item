@@ -3,7 +3,6 @@ import styles from '../styles/rolling-item.module.scss';
 import styled, { css, keyframes } from 'styled-components';
 import { detect } from 'detect-browser';
 import classNames from 'classnames';
-import raf from 'raf';
 
 type IntroItemInfo = {x: string | number, y: string | number};
 interface ItemInfo extends IntroItemInfo {id?: any, probability?: number};
@@ -176,14 +175,14 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
         execCount++;
 
         if (execCount === 3) {
-          raf.cancel(this.loopRafId);
+          cancelAnimationFrame(this.loopRafId);
         } else {
-          this.loopRafId = raf(callback.bind(this, next));
+          this.loopRafId = requestAnimationFrame(callback.bind(this, next));
         }
       }
 
       setTimeout(() => {
-        this.loopRafId = raf(callback);
+        this.loopRafId = requestAnimationFrame(callback);
       }, this.props.startDelay || 0);
 
       if (this.props.onProgress) {
@@ -351,12 +350,12 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
           this.resultId = [];
         }
       } else {
-        this.rollingRafId[index] = raf(callback.bind(this, next));
+        this.rollingRafId[index] = requestAnimationFrame(callback.bind(this, next));
       }
     };
 
     if (this.state.on) {
-      this.rollingRafId[index] = raf(callback);
+      this.rollingRafId[index] = requestAnimationFrame(callback);
     }
   }
 
@@ -399,7 +398,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
   }
 
   private cancel = (index: number): void => {
-    raf.cancel(this.rollingRafId[index]);
+    cancelAnimationFrame(this.rollingRafId[index]);
     this.rollingRafId.splice(index, 1, null);
   }
 
