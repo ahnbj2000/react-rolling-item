@@ -50,8 +50,8 @@ const RollingBox: any = styled.div<any>`
 // componentDidUpdate cycle에서 이전 애니메이션이 완료되면 state를 업데이트하여 해당 버그를 회피하도록 함.
 const BoxDiv: any = styled.div.attrs<any>((props) => ({
   style: {
-    transform: `translate3d(0, ${props.pos}px, 0)`,
-    msTransform: `translate3d(0, ${props.pos}px, 0)`,
+    transform: `translate(0, ${props.pos}px)`,
+    msTransform: `translate(0, ${props.pos}px)`,
   }
 }))`
   ${(props: any) => css`animation: ${props.animation} 0.6s ease-out 1`};
@@ -197,8 +197,8 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
 
     itemInfo.forEach((eachPos, i) => {
       let frame = eachAnimationState[i] && completionAnimation ? keyframes`
-        50% { transform: translate3d(0, ${this.state.pos[i]+20 }px, 0); }
-        100% { transform: translate3d(0, ${this.state.pos[i] }px, 0); }
+        50% { transform: translate(0, ${this.state.pos[i]+20 }px); }
+        100% { transform: translate(0, ${this.state.pos[i] }px); }
       ` : null;
 
       rollingBoxes.push(
@@ -247,13 +247,13 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
 
     const callback = (next?: any) => {
       let now = new Date().getTime();
+      const fitPos = Math.abs(this.state.pos[index]) % this.props.height;
 
       if (!this.state.on) {
         if (index === 0 || this.movePixel[index - 1] === 0) {
 
           if (this.generatedItems.length > 0) {
             let currentIndex = Math.floor(Math.abs(this.state.pos[index]) / this.props.height);
-            const fitPos = Math.abs(this.state.pos[index]) % this.props.height;
 
             if (itemNum === currentIndex) {
               currentIndex = 0;
@@ -271,7 +271,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
               this.movePixel[index] = 0;
             }
           } else {
-            if (this.state.pos[index] % this.props.height === 0 && this.stopDelay[index] === 0) {
+            if (fitPos === 0 && this.stopDelay[index] === 0) {
               this.movePixel[index] = 0;
             } else {
               if (this.movePixel[index] > 5) {
