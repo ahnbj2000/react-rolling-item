@@ -48,7 +48,7 @@ export default class Container extends React.PureComponent<IContainerProps, ICon
           }
           width={177}
           height={181}
-          startDelay={500}
+          startDelay={1000}
           reset={this.state.reset}
           completionAnimation={true}
           onProgress={(isProgress, result) => { console.log(result); }}

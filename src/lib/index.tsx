@@ -38,7 +38,7 @@ const RollingBox: any = styled.div<any>`
 `;
 
 // const BoxDiv: any = styled.div<any>`
-//   transform: ${props => `translate(0px, ${props.pos}px)`};
+//   transform: ${props => `translate3d(0px, ${props.pos}px, 0)`};
 //   animation: ${props => css`${props.animation} 1s ease 1`};
 // `;
 
@@ -49,8 +49,8 @@ const RollingBox: any = styled.div<any>`
 // componentDidUpdate cycle에서 이전 애니메이션이 완료되면 state를 업데이트하여 해당 버그를 회피하도록 함.
 const BoxDiv: any = styled.div.attrs<any>((props) => ({
   style: {
-    transform: `translate(0, ${props.pos}px)`,
-    msTransform: `translate(0, ${props.pos}px)`,
+    transform: `translate3d(0, ${props.pos}px, 0)`,
+    msTransform: `translate3d(0, ${props.pos}px, 0)`,
   }
 }))`
   ${(props: any) => css`animation: ${props.framePos && keyframeProp(props.framePos)} 0.6s ease-out 1`};
@@ -65,8 +65,8 @@ const RollingImages: any = styled.div<any>`
 `;
 
 const keyframeProp: any = (props: any) => keyframes`
-  50% { transform: translate(0, ${props + 20 }px); }
-  100% { transform: translate(0, ${props}px); }
+  50% { transform: translate3d(0, ${props + 20 }px, 0); }
+  100% { transform: translate3d(0, ${props}px, 0); }
 `
 
 export default class RollingItem extends React.PureComponent<IRollingItemProps, IRollingItemState> {
