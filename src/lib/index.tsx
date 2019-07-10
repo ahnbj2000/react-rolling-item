@@ -207,7 +207,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
               )
             }
             <RollingImages {...{ pos: eachPos[0], backgroundImage, backgroundSize, width, height }} key={i} />
-            <RollingImages {...{ pos: introItemInfo, backgroundImage, backgroundSize, width, height }} key={'intro'} />
+          { introItemInfo && <RollingImages {...{ pos: introItemInfo, backgroundImage, backgroundSize, width, height }} key={'intro'} /> }
           </BoxDiv>
         </RollingBox>
       );
