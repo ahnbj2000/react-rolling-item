@@ -171,7 +171,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
         if (typeof next === 'undefined' || (now > next && execCount < this.props.row)) {
           this.stopDelay[execCount] = execCount === 0 ? 0 : 3;
           this.cancel(execCount);
-          this.movePixel[execCount] = Math.floor((this.browserInfo.name === 'ie' ? 20 : 15) * this.props.height * 0.01);
+          this.movePixel[execCount] = Math.floor((this.browserInfo.name === 'ie' && parseInt(this.browserInfo.version, 10) === 9 ? 20 : 15) * this.props.height * 0.01);
           this.animate(execCount);
           next = now;
         }
