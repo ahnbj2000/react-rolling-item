@@ -183,7 +183,6 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     }
 
     if (prevState.reset !== reset && reset) {
-      console.log('reset')
       this.reset();
     }
   }
