@@ -35,7 +35,7 @@ const RAF_DELAY = 10;
 const translateProp: any = (value: number) => {
   const browserInfo: any = detect();
 
-  if (browserInfo.name === 'ie' && browserInfo.version === '9') {
+  if (browserInfo.name === 'ie' && parseInt(browserInfo.version, 10) === 9) {
     return `translate(0, ${value}px)`;
   } else {
     return `translate3d(0, ${value}px, 0)`;
@@ -60,6 +60,7 @@ const RollingBox: any = styled.div<any>`
 const BoxDiv: any = styled.div.attrs<any>((props) => ({
   style: {
     transform: translateProp(props.pos),
+    msTransform: translateProp(props.pos),
   }
 }))`
   ${(props: any) => css`animation: ${props.framePos && keyframeProp(props.framePos)} 0.6s ease-out 1`};
