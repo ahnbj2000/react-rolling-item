@@ -30,7 +30,17 @@ interface IRollingItemState {
   reset: boolean;
 }
 
-const RAF_DELAY = 1;
+const RAF_DELAY = 10;
+
+const translateProp: any = (value: number) => {
+  const browserInfo: any = detect();
+
+  if (browserInfo.name === 'ie' && browserInfo.version === '9') {
+    return `translate(0, ${value}px)`;
+  } else {
+    return `translate3d(0, ${value}px, 0)`;
+  }
+}
 
 const RollingBox: any = styled.div<any>`
   width: ${props => `${props.width}px`};
@@ -49,8 +59,7 @@ const RollingBox: any = styled.div<any>`
 // componentDidUpdate cycle에서 이전 애니메이션이 완료되면 state를 업데이트하여 해당 버그를 회피하도록 함.
 const BoxDiv: any = styled.div.attrs<any>((props) => ({
   style: {
-    transform: `translate(0, ${props.pos}px)`,
-    msTransform: `translate(0, ${props.pos}px)`,
+    transform: translateProp(props.pos),
   }
 }))`
   ${(props: any) => css`animation: ${props.framePos && keyframeProp(props.framePos)} 0.6s ease-out 1`};
@@ -65,10 +74,9 @@ const RollingImages: any = styled.div<any>`
 `;
 
 const keyframeProp: any = (props: any) => keyframes`
-  50% { transform: translate(0, ${props + 20 }px); }
-  100% { transform: translate(0, ${props}px); }
+  50% { transform: ${translateProp(props + 20)}; }
+  100% { transform: ${translateProp(props)}; }
 `
-
 export default class RollingItem extends React.PureComponent<IRollingItemProps, IRollingItemState> {
   private rollingRafId: any[] = [];
   private loopRafId: any = null;
@@ -79,6 +87,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
   private generatedItems: any[] = [];
   private pickedItem: any;
   private prizeItemIndexes: any[] = [];
+  private browserInfo: any;
 
   static getDerivedStateFromProps(props: IRollingItemProps, state: IRollingItemState) {
     if (state.pos.length === 0) {
@@ -136,6 +145,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
       itemInfo: [],
       reset: false,
     }
+    this.browserInfo = detect();
   }
 
   public componentDidMount(): void {
@@ -160,7 +170,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
         if (typeof next === 'undefined' || (now > next && execCount < this.props.row)) {
           this.stopDelay[execCount] = execCount === 0 ? 0 : 3;
           this.cancel(execCount);
-          this.movePixel[execCount] = Math.floor(((detect() as any).name === 'ie' ? 20 : 15) * this.props.height * 0.01);
+          this.movePixel[execCount] = Math.floor((this.browserInfo.name === 'ie' ? 20 : 15) * this.props.height * 0.01);
           this.animate(execCount);
           next = now;
         }

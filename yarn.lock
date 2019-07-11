@@ -1255,6 +1255,13 @@
   resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.8.tgz#17139e1e1104203572caa4368f6796f6225b70b4"
   integrity sha512-3UrLzPnz8u+MMXuJTF++389IfLSQUbl5F3ry9WCxva0BKG5H/oo5NuPRXk+HrpPU1+5pVHSWhnVWRzIaFQ7QuQ==
 
+"@types/detect-browser@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/detect-browser/-/detect-browser-4.0.0.tgz#5672576f9621aad8773489593fca2e4c57c29fb5"
+  integrity sha512-c2cAqR4G5QL2aPDgzpsk8ck/R+w7djxpe05Z8XYg1Ahfe/Bekb+06PG9zw64T6I1oNWDVM+IAsSbyASVydAdRw==
+  dependencies:
+    detect-browser "*"
+
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.1.tgz#42995b446db9a48a11a07ec083499a860e9138ff"
@@ -3376,6 +3383,11 @@ destroy@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
   integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
+
+detect-browser@*, detect-browser@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/detect-browser/-/detect-browser-4.6.0.tgz#39e2118150e5b4e9ec9546e3f489b2108bb554ab"
+  integrity sha512-JUPne6M/4CJLCQUZRfR+3GNoDFcChgSnlw7AEn+WTVkdxl+2UjzrMKpzN3bXdSIwwQjs45sduKMqpXWB77wQpQ==
 
 detect-browser@^4.5.1:
   version "4.5.1"
