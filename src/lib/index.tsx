@@ -263,7 +263,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
               currentIndex = 0;
             }
 
-            if (this.movePixel[index] > 5) {
+            if (this.movePixel[index] > 15) {
               this.movePixel[index]--;
             }
 
@@ -278,7 +278,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
             if (fitPos === 0 && this.stopDelay[index] === 0) {
               this.movePixel[index] = 0;
             } else {
-              if (this.movePixel[index] > 5) {
+              if (this.movePixel[index] > 15) {
                 this.movePixel[index]--;
               }
             }
