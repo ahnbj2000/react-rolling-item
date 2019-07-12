@@ -46,7 +46,7 @@ export default class Container extends React.PureComponent<IContainerProps, ICon
               { x: -437, y: -406, id: 'item_8' },
             ]
           }
-          width="177px"
+          width={177}
           height={181}
           startDelay={1000}
           reset={this.state.reset}
