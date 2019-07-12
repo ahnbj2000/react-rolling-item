@@ -15,6 +15,7 @@ declare module 'react-rolling-item' {
     startDelay?: number;
     reset?: boolean;
     completionAnimation?: boolean;
+    rootClassName?: string;
     onProgress?: (progress: boolean, result?: any[]) => void;
   }
   export default class RollingItem extends React.PureComponent<RollingItemProps, {}> {}

@@ -18,6 +18,7 @@ interface IRollingItemProps {
   startDelay?: number;
   reset?: boolean;
   completionAnimation?: boolean;
+  rootClassName?: string;
   onProgress?: (progress: boolean, result?: any[]) => void;
 }
 
@@ -199,7 +200,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
   }
 
   public render(): React.ReactNode {
-    const { backgroundImage, backgroundSize, width, height, introItemInfo, completionAnimation = false } = this.props;
+    const { backgroundImage, backgroundSize, width, height, introItemInfo, completionAnimation = false , rootClassName = ''} = this.props;
     const { itemInfo, eachAnimationState, pos } = this.state;
     const rollingBoxes: any[] = [];
 
@@ -207,7 +208,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
       let framePos = eachAnimationState[i] && completionAnimation ? pos[i] : null;
 
       rollingBoxes.push(
-        <RollingBox className={classNames(styles.box, 'roll_box_item')} {...{ width, height }} key={i}>
+        <RollingBox className={classNames(styles.box, rootClassName, 'roll_box_item')} {...{ width, height }} key={i}>
           <BoxDiv
             { ...{ pos: this.state.pos[i], framePos } }
             key={`inner_${i}`}
