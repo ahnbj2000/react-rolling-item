@@ -157,7 +157,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
   }
 
   public componentDidUpdate(prevProps: IRollingItemProps, prevState: IRollingItemState): void {
-    const { on, reset, itemInfo } = this.state;
+    const { on, reset } = this.state;
 
     if (prevState.on !== on && on) {
       this.setState({
