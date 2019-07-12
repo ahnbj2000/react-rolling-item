@@ -10,7 +10,7 @@ declare module 'react-rolling-item' {
     backgroundSize: string;
     itemInfo: ItemInfo[];
     introItemInfo: IntroItemInfo;
-    width: number;
+    width: string;
     height: number;
     startDelay?: number;
     reset?: boolean;

@@ -13,7 +13,7 @@ interface IRollingItemProps {
   backgroundSize: string;
   itemInfo: ItemInfo[];
   introItemInfo: IntroItemInfo;
-  width: number;
+  width: string;
   height: number;
   startDelay?: number;
   reset?: boolean;
@@ -44,7 +44,7 @@ const translateProp: any = (value: number) => {
 }
 
 const RollingBox: any = styled.div<any>`
-  width: ${props => `${props.width}px`};
+  width: ${props => props.width};
   height: ${props => `${props.height}px`};
 `;
 
@@ -71,7 +71,7 @@ const RollingImages: any = styled.div<any>`
   background: url(${props => props.backgroundImage});
   background-size: ${props => props.backgroundSize};
   background-position: ${props => typeof props.pos.x === 'number' ? `${props.pos.x}px` : props.pos.x} ${props => typeof props.pos.y === 'number' ? `${props.pos.y}px` : props.pos.y};
-  width: ${props => `${props.width}px`};
+  width: ${props => props.width};
   height: ${props => `${props.height}px`};
 `;
 
