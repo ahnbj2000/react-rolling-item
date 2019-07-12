@@ -208,7 +208,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
       let framePos = eachAnimationState[i] && completionAnimation ? pos[i] : null;
 
       rollingBoxes.push(
-        <RollingBox className={classNames(styles.box, rootClassName, 'roll_box_item')} {...{ width, height }} key={i}>
+        <RollingBox className={classNames(styles.box, 'roll_box_item')} {...{ width, height }} key={i}>
           <BoxDiv
             { ...{ pos: this.state.pos[i], framePos } }
             key={`inner_${i}`}
@@ -226,7 +226,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     });
 
     return (
-      <div className={classNames(styles.rolling, 'roll_box_wrap')}>
+      <div className={classNames(styles.rolling, rootClassName, 'roll_box_wrap')}>
         <div className={classNames(styles.inner, 'roll_box_inner')}>
           {rollingBoxes}
         </div>
