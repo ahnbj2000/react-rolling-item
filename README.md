@@ -2,7 +2,7 @@
 
 ## example
 
-![](./public/ReactRollingItem_demo_gif.gif)
+![demo](./public/ReactRollingItem_demo_gif.gif){: width="200" height="70"}
 
 ```react
 <>
