@@ -8,7 +8,7 @@ type IntroItemInfo = {x: string | number, y: string | number};
 interface ItemInfo extends IntroItemInfo {id?: any, probability?: number};
 interface IRollingItemProps {
   on: boolean;
-  row: number;
+  column: number;
   backgroundImage: string;
   backgroundSize: string;
   itemInfo: ItemInfo[];
@@ -94,8 +94,8 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
   static getDerivedStateFromProps(props: IRollingItemProps, state: IRollingItemState) {
     if (state.pos.length === 0) {
       return {
-        pos: [...new Array(props.row)].map(() => (-(props.height * props.itemInfo.length))),
-        itemInfo: [...new Array(props.row)].map((v, i) => {
+        pos: [...new Array(props.column)].map(() => (-(props.height * props.itemInfo.length))),
+        itemInfo: [...new Array(props.column)].map((v, i) => {
           let probabilitySum = 0;
           let isOver100 = false;
           const itemInfo = [...props.itemInfo].map((item, i) => {
@@ -142,7 +142,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     this.state = {
       on: false,
       animationState: false,
-      eachAnimationState: [...new Array(props.row)].map(() => (false)),
+      eachAnimationState: [...new Array(props.column)].map(() => (false)),
       pos: [],
       itemInfo: [],
       reset: false,
@@ -162,14 +162,14 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     if (prevState.on !== on && on) {
       this.setState({
         animationState: true,
-        pos: [...new Array(this.props.row)].map(() => (-this.boxHeight)),
-        eachAnimationState: [...new Array(this.props.row)].map(() => (false))
+        pos: [...new Array(this.props.column)].map(() => (-this.boxHeight)),
+        eachAnimationState: [...new Array(this.props.column)].map(() => (false))
       });
 
       let execCount = 0;
       const callback = (next?: any) => {
         let now = new Date().getTime();
-        if (typeof next === 'undefined' || (now > next && execCount < this.props.row)) {
+        if (typeof next === 'undefined' || (now > next && execCount < this.props.column)) {
           this.stopDelay[execCount] = execCount === 0 ? 0 : 3;
           this.cancel(execCount);
           this.movePixel[execCount] = Math.floor((this.browserInfo.name === 'ie' && parseInt(this.browserInfo.version, 10) === 9 ? 20 : 15) * this.props.height * 0.01);
@@ -342,11 +342,6 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
           return false;
         });
 
-        // TODO: 모든 확률이 0일 경우에 대비해 앞에 아이템들이 모두 동일 할 경우, 마지막 아이템은 다른 아이템이 나오도록 무조건 한번 더 돌림.
-        // if (isNone && this.props.row - 1 === index && this.isAllValuesSame([...this.resultId])) {
-
-        // }
-
         this.setState({
           eachAnimationState: this.state.eachAnimationState.map((v, i) => {
             return index === i || !!v;
@@ -370,7 +365,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
   }
 
   private generatedByProbability = () => {
-    const { itemInfo, row } = this.props;
+    const { itemInfo, column } = this.props;
 
     this.generatedItems = [];
 
@@ -378,7 +373,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
       return;
     }
 
-    const totalCaseNum = Math.pow(itemInfo.length, row);
+    const totalCaseNum = Math.pow(itemInfo.length, column);
     let eachCaseNum = 0;
 
     itemInfo.forEach((item: ItemInfo, index) => {
@@ -401,8 +396,8 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
       return;
     }
 
-    const { itemInfo, row } = this.props;
-    const totalCaseNum = Math.pow(itemInfo.length, row);
+    const { itemInfo, column } = this.props;
+    const totalCaseNum = Math.pow(itemInfo.length, column);
 
     return this.generatedItems[Math.floor(Math.random() * (totalCaseNum + 1))];
   }
@@ -453,8 +448,8 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     this.setState({
       itemInfo: shufflePos,
       reset: false,
-      pos: [...new Array(this.props.row)].map(() => (-this.boxHeight)),
-      eachAnimationState: [...new Array(this.props.row)].map(() => (false))
+      pos: [...new Array(this.props.column)].map(() => (-this.boxHeight)),
+      eachAnimationState: [...new Array(this.props.column)].map(() => (false))
     });
   }
 

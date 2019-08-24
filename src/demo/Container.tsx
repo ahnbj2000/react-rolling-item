@@ -30,7 +30,7 @@ export default class Container extends React.PureComponent<IContainerProps, ICon
       <>
         <RollingItem
           on={this.state.start}
-          row={3}
+          column={3}
           backgroundImage={imageFile}
           backgroundSize="600px 564px"
           introItemInfo={{ x: -39, y: -28 }}

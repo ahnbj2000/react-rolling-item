@@ -5,7 +5,7 @@ declare module 'react-rolling-item' {
 
   interface RollingItemProps {
     on: boolean;
-    row: number;
+    column: number;
     backgroundImage: string;
     backgroundSize: string;
     itemInfo: ItemInfo[];
