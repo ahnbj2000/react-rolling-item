@@ -44,8 +44,8 @@
 | column              | number                                                 | number of columns to roll                                    |
 | backgroundImage     | string                                                 |                                                              |
 | backgroundSize      | string                                                 |                                                              |
-| itemInfo            | {id?: any, x: string, y: string, probability?: number} |                                                              |
-| introItemInfo       | {x: string, y: string}                                 | intro screen before rolling                                  |
+| itemInfo            | {id?: any, x: number, y: number, probability?: number} |                                                              |
+| introItemInfo       | {x: number, y: number}                                 | intro screen before rolling                                  |
 | width               | number                                                 | width of one item                                            |
 | height              | number                                                 | height of one item                                           |
 | startDelay          | number                                                 | post-start delay                                             |
