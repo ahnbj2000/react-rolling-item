@@ -2,7 +2,7 @@
 
 ## example
 
-<img src="./public/ReactRollingItem_demo_gif.gif" width="200" height="70" />
+<img src="./public/ReactRollingItem_demo_gif.gif" width="600" height="250" />
 
 ```react
 <>
