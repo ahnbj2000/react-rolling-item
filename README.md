@@ -2,6 +2,8 @@
 
 ## example
 
+![](./public/ReactRollingItem_demo_gif.gif)
+
 ```react
 <>
   <RollingItem
