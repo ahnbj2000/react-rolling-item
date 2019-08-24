@@ -258,7 +258,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
 
       if (!this.state.on) {
         if (index === 0 || this.movePixel[index - 1] === 0) {
-          if (this.generatedItems.length > 0) {
+          if (this.generatedItems.length > 0 || this.prizeItemIndexes.length > 0) {
             let currentIndex = Math.floor(Math.abs(this.state.pos[index]) / this.props.height);
 
             if (itemNum === currentIndex) {
@@ -342,6 +342,11 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
           return false;
         });
 
+        // TODO: 모든 확률이 0일 경우에 대비해 앞에 아이템들이 모두 동일 할 경우, 마지막 아이템은 다른 아이템이 나오도록 무조건 한번 더 돌림.
+        // if (isNone && this.props.row - 1 === index && this.isAllValuesSame([...this.resultId])) {
+
+        // }
+
         this.setState({
           eachAnimationState: this.state.eachAnimationState.map((v, i) => {
             return index === i || !!v;
@@ -416,15 +421,32 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     this.pickedItem = this.getPickedItem();
 
     const shufflePos: ItemInfo[][] = [];
+    const loserItem: any[] = [];
+
     this.state.itemInfo.forEach((eachPos, i) => {
       const shuffleItem = this.shuffle(eachPos);
 
-      if (this.generatedItems.length > 0) {
-        shuffleItem.some((item, index) => {
-          this.prizeItemIndexes[i] = index;
+      shuffleItem.some((item, index) => {
+        this.prizeItemIndexes[i] = index;
+
+        if (this.generatedItems.length > 0) {
           return item.id === this.pickedItem;
-        });
-      }
+        } else {
+          if (i > 0) {
+            const hasNotItem = loserItem.indexOf(item.id) === -1;
+
+            if (hasNotItem) {
+              loserItem.push(item.id);
+              return true;
+            }
+            return false;
+          } else {
+            loserItem.push(item.id);
+            return true;
+          }
+        }
+      });
+
       shufflePos.push(shuffleItem);
     });
 
@@ -434,6 +456,25 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
       pos: [...new Array(this.props.row)].map(() => (-this.boxHeight)),
       eachAnimationState: [...new Array(this.props.row)].map(() => (false))
     });
+  }
+
+  private isAllValuesSame = (arr: any[]): boolean => {
+    if (arr.length === 0) {
+      return false;
+    }
+
+    const arrTemp = [...arr];
+    const prevValue = arrTemp.shift();
+
+    if (arr.length === 1 && (prevValue === arr[0])) {
+      return true;
+    }
+
+    if (prevValue === arrTemp[0]) {
+      return this.isAllValuesSame(arrTemp);
+    } else {
+      return false;
+    }
   }
 }
 

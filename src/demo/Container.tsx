@@ -36,14 +36,14 @@ export default class Container extends React.PureComponent<IContainerProps, ICon
           introItemInfo={{ x: -39, y: -28 }}
           itemInfo={
             [
-              { x: -39, y: -217, id: 'item_1', probability: 20 },
-              { x: -39, y: -406, id: 'item_2', probability: 5 },
-              { x: -241, y: -28, id: 'item_3', probability: 10 },
-              { x: -241, y: -217, id: 'item_4', probability: 20 },
-              { x: -241, y: -406, id: 'item_5', probability: 15 },
-              { x: -437, y: -28, id: 'item_6', probability: 50 },
-              { x: -437, y: -217, id: 'item_7' },
-              { x: -437, y: -406, id: 'item_8' },
+              { x: -39, y: -217, id: 'item_1', probability: 0 },
+              { x: -39, y: -406, id: 'item_2', probability: 0 },
+              { x: -241, y: -28, id: 'item_3', probability: 0 },
+              { x: -241, y: -217, id: 'item_4', probability: 0 },
+              { x: -241, y: -406, id: 'item_5', probability: 0 },
+              { x: -437, y: -28, id: 'item_6', probability: 0 },
+              { x: -437, y: -217, id: 'item_7', probability: 0 },
+              { x: -437, y: -406, id: 'item_8', probability: 0 },
             ]
           }
           width={177}
