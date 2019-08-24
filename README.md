@@ -2,7 +2,7 @@
 
 ## example
 
-![demo](./public/ReactRollingItem_demo_gif.gif){: width="200" height="70"}
+<img src="./public/ReactRollingItem_demo_gif.gif" width="200" height="70" />
 
 ```react
 <>
