@@ -156,6 +156,16 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     this.reset();
   }
 
+  public componentWillUnmount(): void {
+    this.rollingRafId.forEach((ids) => {
+      cancelAnimationFrame(ids);
+    });
+    cancelAnimationFrame(this.loopRafId);
+
+    this.rollingRafId = [];
+    this.loopRafId = null;
+  }
+
   public componentDidUpdate(prevProps: IRollingItemProps, prevState: IRollingItemState): void {
     const { on, reset } = this.state;
 
