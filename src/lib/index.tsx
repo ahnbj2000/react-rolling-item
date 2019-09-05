@@ -90,6 +90,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
   private pickedItem: any;
   private prizeItemIndexes: any[] = [];
   private browserInfo: any;
+  private isMount: boolean = false;
 
   static getDerivedStateFromProps(props: IRollingItemProps, state: IRollingItemState) {
     if (state.pos.length === 0) {
@@ -151,19 +152,15 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
   }
 
   public componentDidMount(): void {
+    this.isMount = true;
     this.boxHeight = this.props.height * (this.state.itemInfo[0].length + (!!this.props.introItemInfo && 1));
 
     this.reset();
   }
 
   public componentWillUnmount(): void {
-    this.rollingRafId.forEach((ids) => {
-      cancelAnimationFrame(ids);
-    });
-    cancelAnimationFrame(this.loopRafId);
-
-    this.rollingRafId = [];
-    this.loopRafId = null;
+    this.isMount = false;
+    this.destroy();
   }
 
   public componentDidUpdate(prevProps: IRollingItemProps, prevState: IRollingItemState): void {
@@ -178,6 +175,10 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
 
       let execCount = 0;
       const callback = (next?: any) => {
+        if (!this.isMount) {
+          this.destroy();
+          return;
+        }
         let now = new Date().getTime();
         if (typeof next === 'undefined' || (now > next && execCount < this.props.column)) {
           this.stopDelay[execCount] = execCount === 0 ? 0 : 3;
@@ -263,6 +264,10 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     const itemNum = this.props.itemInfo.length;
 
     const callback = (next?: any) => {
+      if (!this.isMount) {
+        this.destroy();
+        return;
+      }
       let now = new Date().getTime();
       const fitPos = Math.abs(this.state.pos[index]) % this.props.height;
 
@@ -410,6 +415,15 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     const totalCaseNum = Math.pow(itemInfo.length, column);
 
     return this.generatedItems[Math.floor(Math.random() * (totalCaseNum + 1))];
+  }
+
+  private destroy = (): void => {
+    this.rollingRafId.forEach((ids, i) => {
+      this.cancel(i);
+    });
+    cancelAnimationFrame(this.loopRafId);
+
+    this.loopRafId = null;
   }
 
   private cancel = (index: number): void => {
