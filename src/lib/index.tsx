@@ -156,12 +156,12 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     this.boxHeight = this.props.height * (this.state.itemInfo[0].length + (!!this.props.introItemInfo && 1));
 
     this.reset();
-    debugger;
   }
 
   public componentWillUnmount(): void {
     this.isMount = false;
     this.destroy();
+    console.log(this.rollingRafId, this.loopRafId);
   }
 
   public componentDidUpdate(prevProps: IRollingItemProps, prevState: IRollingItemState): void {
@@ -266,6 +266,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
 
     const callback = (next?: any) => {
       if (!this.isMount) {
+        console.log('mount: ', this.isMount);
         this.destroy();
         return;
       }
