@@ -161,7 +161,6 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
   public componentWillUnmount(): void {
     this.isMount = false;
     this.destroy();
-    console.log(this.rollingRafId, this.loopRafId);
   }
 
   public componentDidUpdate(prevProps: IRollingItemProps, prevState: IRollingItemState): void {
@@ -266,7 +265,6 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
 
     const callback = (next?: any) => {
       if (!this.isMount) {
-        console.log('mount: ', this.isMount);
         this.destroy();
         return;
       }
