@@ -156,6 +156,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     this.boxHeight = this.props.height * (this.state.itemInfo[0].length + (!!this.props.introItemInfo && 1));
 
     this.reset();
+    debugger;
   }
 
   public componentWillUnmount(): void {
