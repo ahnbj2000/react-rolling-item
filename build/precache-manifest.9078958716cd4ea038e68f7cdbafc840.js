@@ -4,7 +4,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/react-rolling-item/index.html"
   },
   {
-    "revision": "64952c4dced7f5afbe15",
+    "revision": "7e628a339c75e606b396",
     "url": "/react-rolling-item/static/js/main.js"
   }
 ]);
