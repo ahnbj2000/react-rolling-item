@@ -351,7 +351,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
             if (!selectedItem) {
               selectedItem = itemInfo[0];
             }
-            this.resultId[index] = selectedItem.id || i;
+            this.resultId[index] = typeof selectedItem.id !== 'undefined' ? selectedItem.id : i;
             return true;
           }
           return false;
@@ -396,7 +396,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
         eachCaseNum = Math.floor(totalCaseNum * item.probability * 0.01);
 
         for (let i = 0; i < eachCaseNum; i++) {
-          this.generatedItems.push(item.id || index);
+          this.generatedItems.push(typeof item.id !== 'undefined' ? item.id : index);
         }
       }
     });
