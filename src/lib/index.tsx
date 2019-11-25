@@ -111,7 +111,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
                 item.probability = 0;
               }
             }
-            if (!item.id) {
+            if (typeof item.id === 'undefined') {
               item.id = i;
             }
             return item;
