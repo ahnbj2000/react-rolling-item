@@ -384,7 +384,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
 
     this.generatedItems = [];
 
-    if (!itemInfo.some((item) => (!!item.probability))) {
+    if (!itemInfo.some((item) => (typeof item.probability !== 'undefined'))) {
       return;
     }
 
@@ -392,7 +392,7 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
     let eachCaseNum = 0;
 
     itemInfo.forEach((item: ItemInfo, index) => {
-      if (item.probability) {
+      if (typeof item.probability !== 'undefined') {
         eachCaseNum = Math.floor(totalCaseNum * item.probability * 0.01);
 
         for (let i = 0; i < eachCaseNum; i++) {
