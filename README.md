@@ -49,7 +49,7 @@
 | introItemInfo       | {x: number, y: number}                                 | intro screen before rolling                                  |
 | width               | number                                                 | width of one item                                            |
 | height              | number                                                 | height of one item                                           |
-| fixedIds            | Array<number | string>                                 | You can define the id that will be won in advance            |
+| fixedIds            | number[] or string[]                                   | You can define the id that will be won in advance            |
 | startDelay          | number                                                 | post-start delay                                             |
 | reset               | boolean                                                | random initialization of all items                           |
 | completionAnimation | boolean                                                | whether you want to do an animation when the item stops (IE9 is not supported) |
