@@ -27,6 +27,7 @@
     width={177}
     height={181}
     startDelay={1000}
+    fixedIds={[3, 4, 7]}
     reset={this.state.reset}
     completionAnimation={true}
     onProgress={(isProgress, result) => { console.log(result); }}
@@ -48,6 +49,7 @@
 | introItemInfo       | {x: number, y: number}                                 | intro screen before rolling                                  |
 | width               | number                                                 | width of one item                                            |
 | height              | number                                                 | height of one item                                           |
+| fixedIds            | Array<number | string>                                 | You can define the id that will be won in advance            |
 | startDelay          | number                                                 | post-start delay                                             |
 | reset               | boolean                                                | random initialization of all items                           |
 | completionAnimation | boolean                                                | whether you want to do an animation when the item stops (IE9 is not supported) |

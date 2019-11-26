@@ -15,6 +15,7 @@ interface IRollingItemProps {
   introItemInfo: IntroItemInfo;
   width: number;
   height: number;
+  fixedIds: any[];
   startDelay?: number;
   reset?: boolean;
   completionAnimation?: boolean;
@@ -448,20 +449,24 @@ export default class RollingItem extends React.PureComponent<IRollingItemProps, 
       shuffleItem.some((item, index) => {
         this.prizeItemIndexes[i] = index;
 
-        if (this.generatedItems.length > 0) {
-          return item.id === this.pickedItem;
+        if (this.props.fixedIds) {
+          return item.id === this.props.fixedIds[i];
         } else {
-          if (i > 0) {
-            const hasNotItem = loserItem.indexOf(item.id) === -1;
+          if (this.generatedItems.length > 0) {
+            return item.id === this.pickedItem;
+          } else {
+            if (i > 0) {
+              const hasNotItem = loserItem.indexOf(item.id) === -1;
 
-            if (hasNotItem) {
+              if (hasNotItem) {
+                loserItem.push(item.id);
+                return true;
+              }
+              return false;
+            } else {
               loserItem.push(item.id);
               return true;
             }
-            return false;
-          } else {
-            loserItem.push(item.id);
-            return true;
           }
         }
       });

@@ -12,6 +12,7 @@ declare module 'react-rolling-item' {
     introItemInfo: IntroItemInfo;
     width: number;
     height: number;
+    fixedIds?: any[];
     startDelay?: number;
     reset?: boolean;
     completionAnimation?: boolean;
