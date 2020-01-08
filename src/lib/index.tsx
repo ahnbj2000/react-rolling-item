@@ -63,6 +63,7 @@ const BoxDiv: any = styled.div.attrs<any>((props) => ({
   style: {
     transform: translateProp(props.pos),
     msTransform: translateProp(props.pos),
+    webkitTransform: translateProp(props.pos),
   }
 }))`
   ${(props: any) => css`animation: ${props.framePos && keyframeProp(props.framePos)} 0.6s ease-out 1`};
@@ -77,8 +78,8 @@ const RollingImages: any = styled.div<any>`
 `;
 
 const keyframeProp: any = (props: any) => keyframes`
-  50% { transform: ${translateProp(props + 20)}; }
-  100% { transform: ${translateProp(props)}; }
+  50% { transform: ${translateProp(props + 20)}; -webkit-transform: ${translateProp(props + 20)}; -ms-transform: ${translateProp(props + 20)}; }
+  100% { transform: ${translateProp(props)}; -webkit-transform: ${translateProp(props)}; -ms-transform: ${translateProp(props)}; }
 `
 export default class RollingItem extends React.PureComponent<IRollingItemProps, IRollingItemState> {
   private rollingRafId: any[] = [];
