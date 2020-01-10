@@ -62,8 +62,8 @@ const RollingBox: any = styled.div<any>`
 const BoxDiv: any = styled.div.attrs<any>((props) => ({
   style: {
     transform: translateProp(props.pos),
-    msTransform: translateProp(props.pos),
-    webkitTransform: translateProp(props.pos),
+    MsTransform: translateProp(props.pos),
+    WebkitTransform: translateProp(props.pos),
   }
 }))`
   ${(props: any) => css`animation: ${props.framePos && keyframeProp(props.framePos)} 0.6s ease-out 1`};
