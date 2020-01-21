@@ -62,7 +62,6 @@ const RollingBox: any = styled.div<any>`
 const BoxDiv: any = styled.div.attrs<any>((props) => ({
   style: {
     transform: translateProp(props.pos),
-    MsTransform: translateProp(props.pos),
     WebkitTransform: translateProp(props.pos),
   }
 }))`
